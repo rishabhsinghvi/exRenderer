@@ -28,11 +28,11 @@ int main()
 
 	
 	float vertices[] = {
-		// position           // text coord
-		 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left 
+		// position          
+		0.5f,  0.5f, 5.0f,
+		0.5f, -0.5f, 5.0f,
+		-0.5f, -0.5f, 5.0f,
+		-0.5f,  0.5f, 5.0f, 
 	};
 
 	unsigned int indices[] = {  // note that we start from 0!
@@ -47,9 +47,10 @@ int main()
 	IndexBuffer EBO(indices, 6);
 
 	Layout layoutVertices(3, GL_FLOAT, GL_FALSE);
-	Layout layoutTexture(2, GL_FLOAT, GL_FALSE);
+	//Layout layoutTexture(2, GL_FLOAT, GL_FALSE);
 
-	va.bindBuffer(VBO, { layoutVertices, layoutTexture });
+	va.bindBuffer(VBO, { layoutVertices });
+	//va.bindBuffer(VBO, { layoutVertices, layoutTexture });
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -62,8 +63,8 @@ int main()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// create perspective projection matrix
-	//glm::mat4 projectionMatrix = glm::perspective(45.0f, static_cast<float>(SCR_WIDTH) / static_cast<float>(SCR_HEIGHT), -100.0f, 100.0f);
-	glm::mat4 projectionMatrix = glm::ortho(-2.0f, 2.0f, -1.0f, 1.0f, -1.0f, 100.0f);
+	glm::mat4 projectionMatrix = glm::perspective(45.0f, static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT), 0.0f, 1000.0f);
+	//glm::mat4 projectionMatrix = glm::ortho(-2.0f, 2.0f, -1.0f, 1.0f, -1.0f, 100.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -74,7 +75,7 @@ int main()
 		exRenderer::processUserInput(window, camera, deltaT);
 
 		glClearColor(0.30588f, 0.68627f, 0.84313f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		shader.bind();
 		shader.setUniformMatrix4("projMatrix", projectionMatrix);

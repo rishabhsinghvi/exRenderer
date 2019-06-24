@@ -22,7 +22,10 @@ private:
 	float yaw;
 	float pitch;
 	
-	float cameraSpeed;
+	float cameraSpeed; // for translation
+	float cameraSensitivity;  // for mouse movements
+
+
 
 public:
 	glm::mat4 View; // the view matrix

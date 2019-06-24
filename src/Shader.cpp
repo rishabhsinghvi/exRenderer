@@ -139,9 +139,11 @@ void Shader::setUniformMatrix4(const std::string & uniformName, const glm::mat4&
 
 void Shader::setUniformMatrix3(const std::string & uniformName, const glm::mat3& matrix) const
 {
+	bind();
 	auto loc = glGetUniformLocation(shader_id, uniformName.c_str());
 	glUniformMatrix3fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));
 }
+
 
 void Shader::createShaderProgram(const char* vertexSource, const char* fragSource)
 {
