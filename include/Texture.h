@@ -1,13 +1,12 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include<iostream>
 #include<string>
+#include<unordered_map>
 
 #include "glad/glad.h"
 #include "stb_image/stb_image.h"
 
-#include<unordered_map>
 
 class Texture;
 

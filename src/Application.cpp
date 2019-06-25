@@ -8,6 +8,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Texture.h"
+#include "TextureCube.h"
 #include "exRenderer.h"
 
 #include<glm/glm.hpp>
@@ -16,6 +17,8 @@
 
 static void processMouseInput(GLFWwindow* window, double newX, double newY);
 static void processScrollInput(GLFWwindow* window, double xOffset, double yOffset);
+
+// Globals
 
 const unsigned int SCREEN_WIDTH = 1000;
 const unsigned int SCREEN_HEIGHT = 800;
@@ -35,6 +38,7 @@ int main()
 
 	// build and compile our shader program
 	Shader shader("shaders/test.vert", "shaders/test.frag");
+	Shader skyBox("shaders/skyBox.vert", "shaders/skyBox.frag");
 
 	
 	/*float vertices[] = {
@@ -94,10 +98,54 @@ int main()
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
+	float skyboxVertices[] = {
+		// positions          
+		-1.0f,  1.0f, -1.0f,
+		-1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+
+		-1.0f, -1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+
+		-1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
+
+		-1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f, -1.0f,
+		 1.0f, -1.0f, -1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f
+	};
 
 	
 
-	VertexArray va;
+	VertexArray va1;
 
 	VertexBuffer VBO(vertices, sizeof(vertices), 36);
 	//IndexBuffer EBO(indices, 6);
@@ -106,19 +154,30 @@ int main()
 	Layout layoutTexture(2, GL_FLOAT, GL_FALSE);
 
 	//va.bindBuffer(VBO, { layoutVertices });
-	va.bindBuffer(VBO, { layoutVertices, layoutTexture });
+	va1.bindBuffer(VBO, { layoutVertices, layoutTexture });
 
 	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	VBO.unbind();
 
-	va.unbind();
+	va1.unbind();
+
+	VertexArray va2;
+	VertexBuffer VBO2(skyboxVertices, sizeof(skyboxVertices), 36);
+	Layout layoutSVertices(3, GL_FLOAT, GL_FALSE);
+	va2.bindBuffer(VBO2, { layoutSVertices });
+
+	VBO2.unbind();
+	va2.unbind();
 
 	Texture tex("textures/test.jpg");
+	
+	const std::vector<std::string> skyBoxPaths = { "textures/skybox1/posx.jpg", "textures/skybox1/negx.jpg", "textures/skybox1/posy.jpg" , "textures/skybox1/negy.jpg", "textures/skybox1/posz.jpg", "textures/skybox1/negz.jpg" };
+	TextureCube skybox(skyBoxPaths, 1);
 
 	shader.setUniformInt("texture1", { 0 }, 1);
 	// uncomment this call to draw in wireframe polygons.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+	skyBox.setUniformInt("skyBox", { 1 }, 1);
 	// create perspective projection matrix
 
 	// for some reason, depth testing doesn't work when near plane is set to 0. So set it to 0.00001
@@ -136,21 +195,35 @@ int main()
 		exRenderer::processUserInput(window, camera, deltaT);
 
 		glm::mat4 projectionMatrix = glm::perspective(camera.getFov(), static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT), 0.00001f, 1000.0f);
-
+		glm::mat4 viewMatrix = camera.View;
 		//glClearColor(0.30588f, 0.68627f, 0.84313f, 1.0f);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.bind();
 		shader.setUniformMatrix4("projMatrix", projectionMatrix);
-		shader.setUniformMatrix4("viewMatrix", camera.View);
+		shader.setUniformMatrix4("viewMatrix", viewMatrix);
 
-		va.bind();
+		va1.bind();
 
 //		glDrawElements(GL_TRIANGLES, EBO.getCount(), GL_UNSIGNED_INT, 0);
 
+		// Draw skybox
 		VBO.draw();
+		va1.unbind();
+		glDepthFunc(GL_LEQUAL);
 
+		viewMatrix = glm::mat4(glm::mat3(viewMatrix));
+
+		skyBox.bind();
+		skyBox.setUniformMatrix4("viewMatrix", viewMatrix);
+		skyBox.setUniformMatrix4("projMatrix", projectionMatrix);
+		va2.bind();
+		VBO2.draw();
+
+		glDepthFunc(GL_LESS);
+
+		va2.unbind();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

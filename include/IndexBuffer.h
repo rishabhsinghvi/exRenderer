@@ -11,7 +11,7 @@ private:
 	unsigned int index_count;
 
 public:
-	IndexBuffer() = delete;
+	IndexBuffer() {}
 
 	IndexBuffer(void* data, unsigned int count) : index_data(data), index_count(count)
 	{
@@ -26,17 +26,17 @@ public:
 		glDeleteBuffers(1, &index_id);
 	}
 
-	inline void bind()
+	inline void bind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
 	}
 
-	inline void unbind()
+	inline void unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	inline unsigned int getCount()
+	inline unsigned int getCount() const
 	{
 		return index_count;
 	}
