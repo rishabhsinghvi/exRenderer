@@ -10,13 +10,13 @@
 #include<glm/mat4x4.hpp>
 #include<glm/gtc/type_ptr.hpp>
 
+
 class Shader
 {
 public:
 private: 
 	unsigned int shader_id;
 public:
-
 	Shader() = delete;
 
 	Shader(const std::string& vertexPath, const std::string& fragmentPath);
@@ -52,5 +52,6 @@ private:
 
 	void checkLinkStatus();
 };
+
 
 #endif

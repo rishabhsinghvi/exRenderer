@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture(const std::string & path): texture_data(nullptr)
+Texture::Texture(const std::string & path, unsigned int textUnit): texture_unit(textUnit),texture_data(nullptr)
 {
 	if (textureCache.find(path) != textureCache.end())
 	{
@@ -8,6 +8,8 @@ Texture::Texture(const std::string & path): texture_data(nullptr)
 		textureCache.find(path)->second->bind();
 		return;
 	}
+
+	glActiveTexture(GL_TEXTURE0 + texture_unit);
 
 	glGenTextures(1, &texture_id);
 	glBindTexture(GL_TEXTURE_2D, texture_id);

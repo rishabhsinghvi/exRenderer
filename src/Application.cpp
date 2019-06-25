@@ -23,16 +23,17 @@ int main()
 	auto window = exRenderer::init(SCREEN_WIDTH, SCREEN_HEIGHT);
 	float curTime = 0.0f;
 
+
 	// build and compile our shader program
 	Shader shader("shaders/test.vert", "shaders/test.frag");
 
 	
 	float vertices[] = {
-		// position          
-		0.5f,  0.5f, 5.0f,
-		0.5f, -0.5f, 5.0f,
-		-0.5f, -0.5f, 5.0f,
-		-0.5f,  0.5f, 5.0f, 
+		// position        //texture  
+		0.5f,  0.5f, 5.0f, 1.0f, 1.0f,
+		0.5f, -0.5f, 5.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 5.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f, 5.0f, 0.0f, 1.0f
 	};
 
 	unsigned int indices[] = {  // note that we start from 0!
@@ -47,12 +48,13 @@ int main()
 	IndexBuffer EBO(indices, 6);
 
 	Layout layoutVertices(3, GL_FLOAT, GL_FALSE);
-	//Layout layoutTexture(2, GL_FLOAT, GL_FALSE);
+	Layout layoutTexture(2, GL_FLOAT, GL_FALSE);
 
-	va.bindBuffer(VBO, { layoutVertices });
-	//va.bindBuffer(VBO, { layoutVertices, layoutTexture });
+	//va.bindBuffer(VBO, { layoutVertices });
+	va.bindBuffer(VBO, { layoutVertices, layoutTexture });
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	VBO.unbind();
 
 	va.unbind();
 
@@ -63,7 +65,7 @@ int main()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// create perspective projection matrix
-	glm::mat4 projectionMatrix = glm::perspective(45.0f, static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT), 0.0f, 1000.0f);
+	glm::mat4 projectionMatrix = glm::perspective(camera.getFov(), static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT), 0.0f, 1000.0f);
 	//glm::mat4 projectionMatrix = glm::ortho(-2.0f, 2.0f, -1.0f, 1.0f, -1.0f, 100.0f);
 
 	while (!glfwWindowShouldClose(window))

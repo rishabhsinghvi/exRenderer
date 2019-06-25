@@ -6,7 +6,7 @@
 #include<iostream>
 #endif
 
-Camera::Camera(glm::vec3 pos, float speed) :position(pos), cameraSpeed(speed), globalUp(glm::vec3(0.0f, 1.0f, 0.0f)), yaw(90.0f), pitch(0.0f), cameraSensitivity(0.5)
+Camera::Camera(glm::vec3 pos, float speed, float fov_) :position(pos), cameraSpeed(speed), globalUp(glm::vec3(0.0f, 1.0f, 0.0f)), yaw(90.0f), pitch(0.0f), cameraSensitivity(0.5), fov(fov_)
 {
 	updateCamera();
 #ifdef DEBUG
