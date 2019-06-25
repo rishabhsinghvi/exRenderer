@@ -9,11 +9,13 @@ private:
 	unsigned int buffer_id;
 	void* buffer_data;
 	unsigned int buffer_size;
+	unsigned int buffer_vertices;
+
 public:
 	
 	VertexBuffer() { /* element */ };
 
-	VertexBuffer(void* data, unsigned int b_size): buffer_data(data),buffer_size(b_size)
+	VertexBuffer(void* data, unsigned int b_size, unsigned int b_vert): buffer_data(data),buffer_size(b_size), buffer_vertices(b_vert)
 	{
 		glGenBuffers(1, &buffer_id);
 		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
@@ -49,6 +51,12 @@ public:
 	inline void setSize(unsigned int size)
 	{
 		buffer_size = size;
+	}
+
+	void draw()
+	{
+		bind();
+		glDrawArrays(GL_TRIANGLES, 0, buffer_vertices);
 	}
 };
 

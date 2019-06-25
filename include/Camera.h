@@ -44,6 +44,9 @@ public:
 		return fov;
 	}
 
+	void updateAngles(float x, float y);
+	void updateFov(float yOffset);
+	
 private:
 	void updateCamera();
 
