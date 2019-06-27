@@ -74,13 +74,13 @@ void Shader::unbind() const
 	glUseProgram(0);
 }
 
-void Shader::setUniformFloat(const std::string & uniformName, const std::vector<float>& uniformArgs, unsigned int numArgs) const
+void Shader::setUniformFloat(const std::string & uniformName, const std::vector<float>& uniformArgs) const
 {
 	bind();
-	assert(numArgs >= 1 && numArgs <= 4);
+	assert(uniformArgs.size() >= 1 && uniformArgs.size() <= 4);
 	auto loc = glGetUniformLocation(shader_id, uniformName.c_str());
 
-	switch (numArgs)
+	switch (uniformArgs.size())
 	{
 	case 1:
 		glUniform1f(loc, uniformArgs[0]);
@@ -101,10 +101,10 @@ void Shader::setUniformFloat(const std::string & uniformName, const std::vector<
 void Shader::setUniformInt(const std::string & uniformName, const std::vector<float>& uniformArgs, unsigned int numArgs) const
 {
 	bind();
-	assert(numArgs >= 1 && numArgs <= 4);
+	assert(uniformArgs.size() >= 1 && uniformArgs.size() <= 4);
 	auto loc = glGetUniformLocation(shader_id, uniformName.c_str());
 
-	switch (numArgs)
+	switch (uniformArgs.size())
 	{
 	case 1:
 		glUniform1i(loc, uniformArgs[0]);

@@ -33,9 +33,9 @@ public:
 
 	// setting a uniform to a shader currently not in use will bind the shader first
 
-	void setUniformFloat(const std::string& uniformName, const std::vector<float>& uniformArgs, unsigned int numArgs) const;
+	void setUniformFloat(const std::string& uniformName, const std::vector<float>& uniformArgs) const;
 
-	void setUniformInt(const std::string& uniformName, const std::vector<float>& uniformArgs, unsigned int numArgs) const;
+	void setUniformInt(const std::string& uniformName, const std::vector<float>& uniformArgs) const;
 
 	void setUniformBool(const std::string& uniformName, bool uniformArg) const;
 
