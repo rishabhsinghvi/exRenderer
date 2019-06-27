@@ -39,7 +39,7 @@ GLFWwindow * exRenderer::init(unsigned int SCRWIDTH, unsigned int SCRHEIGHT)
 	}
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+	glEnable(GL_DEPTH_TEST);
 
 	return window;
 }

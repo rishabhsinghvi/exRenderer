@@ -1,10 +1,14 @@
 #include "VertexArray.h"
 
-void VertexArray::bindBuffer(const VertexBuffer & vb, const std::vector<Layout>& layout_)
+void VertexArray::bindVertexBuffer(const std::shared_ptr<VertexBuffer>& vb, const std::vector<AttributeLayout>& layout_)
 {
+
 	v_buffer = vb;
 	layout = layout_;
-	v_buffer.bind();
+
+	glBindVertexArray(array_id);
+
+	v_buffer->bind();
 
 	int pointerOffset = 0;
 
@@ -21,6 +25,16 @@ void VertexArray::bindBuffer(const VertexBuffer & vb, const std::vector<Layout>&
 		auto type_size = getTypeSize(vertexAttr.type);
 		pointerOffset += vertexAttr.size *  type_size;
 	}
+
+	glBindVertexArray(0);
+}
+
+void VertexArray::bindIndexBuffer(const std::shared_ptr<IndexBuffer>& ib)
+{
+	i_buffer = ib;
+	glBindVertexArray(array_id);
+	i_buffer->bind();
+	glBindVertexArray(0);
 }
 
 // Bit redundant right now, but might be useful if we decide to extend application in the future
@@ -30,6 +44,7 @@ unsigned int VertexArray::getTypeSize(unsigned int type) const
 	{
 	case GL_FLOAT: return 4;
 	case GL_UNSIGNED_INT: return 4;
+	default: return 4;
 	}
 	assert(false);
 }
@@ -47,5 +62,11 @@ unsigned int VertexArray::getStride() const
 	}
 
 	return stride;
+}
+
+void VertexArray::draw() const
+{
+//	bind();
+	i_buffer->draw();
 }
 

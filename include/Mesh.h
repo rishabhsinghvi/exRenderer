@@ -9,22 +9,32 @@
 #include "IndexBuffer.h"
 
 #include<vector>
-
+#include<utility>
 
 class Mesh
 {
 private:
-	VertexArray vertexArray;
-	IndexBuffer indexBuffer;
-	std::vector<Texture> textures;
-
+	std::shared_ptr<VertexArray> vertexArray;
+	std::vector<std::shared_ptr<Texture>> textures;
 public:
-	Mesh(const VertexArray& va, const IndexBuffer& ib, const std::vector<Texture>& tex);
+	Mesh() 
+	{
+
+	}
+	
+	Mesh(const std::shared_ptr<VertexArray>& vArray): vertexArray(vArray)
+	{
+	}
+
+
+	Mesh(const std::shared_ptr<VertexArray>& vArray, const std::vector<std::shared_ptr<Texture>>& textures_) : vertexArray(vArray), textures(std::move(textures_))
+	{
+	}
 
 	void draw() const;
+private:
 
-	void initializeMesh() const;
+
 };
-
 
 #endif

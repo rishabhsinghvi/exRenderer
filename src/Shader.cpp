@@ -232,8 +232,8 @@ void Shader::getErrors(unsigned int s_id)
 		char errMsg[1000];
 		glGetShaderInfoLog(s_id, 1000, nullptr, errMsg);
 		std::cout << "============COMPILATION ERROR================\n";
-		std::cin.get();
 		std::cout << errMsg << "\n";
+		std::cin.get();
 	}
 
 }

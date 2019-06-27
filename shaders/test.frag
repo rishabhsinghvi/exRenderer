@@ -8,5 +8,5 @@ in vec2 uvCoord;
 
 void main()
 {
-	FragColor = texture(texture1, uvCoord);
+	FragColor = vec4(1.0,1.0,1.0,1.0);
 }

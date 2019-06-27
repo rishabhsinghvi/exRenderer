@@ -3,21 +3,27 @@
 
 #include "glad/glad.h"
 
+#include<vector>
+
 class IndexBuffer
 {
 private:
 	unsigned int index_id;
-	void* index_data;
+	std::vector<unsigned int> index_data;
 	unsigned int index_count;
 
 public:
-	IndexBuffer() {}
-
-	IndexBuffer(void* data, unsigned int count) : index_data(data), index_count(count)
+	IndexBuffer() 
 	{
 		glGenBuffers(1, &index_id);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*index_count, index_data, GL_STATIC_DRAW);
+	}
+
+	IndexBuffer(const std::vector<unsigned int> data) : index_data(data), index_count(data.size())
+	{
+		glGenBuffers(1, &index_id);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_data.size() * sizeof(unsigned int), index_data.data(), GL_STATIC_DRAW);
 	}
 
 	~IndexBuffer()
@@ -36,19 +42,26 @@ public:
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
+	inline unsigned int getId() const
+	{
+		return index_id;
+	}
+
 	inline unsigned int getCount() const
 	{
 		return index_count;
 	}
 
-	inline void setIndexData(void* data)
+	inline void setIndexData(const std::vector<unsigned int>& data)
 	{
 		index_data = data;
+		index_count = index_data.size();
 	}
 
-	inline void setCount(unsigned int count)
+
+	inline void draw() const
 	{
-		index_count = count;
+		glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
 	}
 };
 

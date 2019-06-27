@@ -3,23 +3,29 @@
 
 #include "glad/glad.h"
 
+#include<vector>
+
 class VertexBuffer
 {
 private:
 	unsigned int buffer_id;
-	void* buffer_data;
+	std::vector<float> buffer_data;
 	unsigned int buffer_size;
 	unsigned int buffer_vertices;
 
 public:
 	
-	VertexBuffer() { /* element */ };
+	VertexBuffer() 
+	{
 
-	VertexBuffer(void* data, unsigned int b_size, unsigned int b_vert): buffer_data(data),buffer_size(b_size), buffer_vertices(b_vert)
+	}
+
+	VertexBuffer(const std::vector<float>& data) : buffer_data(data), buffer_size(data.size() * 4), buffer_vertices(data.size() / 8)
 	{
 		glGenBuffers(1, &buffer_id);
 		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
-		glBufferData(GL_ARRAY_BUFFER,  buffer_size, buffer_data, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER,  buffer_size, buffer_data.data(), GL_STATIC_DRAW);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	~VertexBuffer()
@@ -43,9 +49,11 @@ public:
 		return buffer_size;
 	}
 
-	inline void setBufferData(void* data)
+	inline void setBufferData(const std::vector<float>& data)
 	{
 		buffer_data = data;
+		buffer_size = data.size() * 4;
+		buffer_vertices = data.size() / 6;   // Each vertex occupies 6 elements: pos_x, pos_y, pos_z, normal_x, normal_y, normal_z, uv_x, uv_y
 	}
 
 	inline void setSize(unsigned int size)
@@ -53,9 +61,8 @@ public:
 		buffer_size = size;
 	}
 
-	void draw()
+	void draw() const
 	{
-		bind();
 		glDrawArrays(GL_TRIANGLES, 0, buffer_vertices);
 	}
 };
