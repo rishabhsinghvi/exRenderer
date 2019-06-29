@@ -8,4 +8,8 @@ When I started building this project, my aim was to abstract a lot of OpenGL cal
 
 TODO: Add textures to models.
 
-Pictures coming as soon as I fix the fragment shader.
+A few screenshots of example models:
+
+![Man](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/man.png)
+![Flashlight](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/flashlight.png)
+![IronMan](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/ironman.png)
