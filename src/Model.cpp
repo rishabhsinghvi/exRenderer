@@ -12,7 +12,7 @@ void Model::loadModel()
 {
 	Assimp::Importer importer;
 
-	const aiScene* scene = importer.ReadFile(filePath, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_OptimizeMeshes);
+	const aiScene* scene = importer.ReadFile(filePath, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph);
 
 	if (!scene)
 	{

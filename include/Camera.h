@@ -36,10 +36,14 @@ public:
 	// think it might be a good idea for user-defined globalUp vector; maybe later
 	Camera(glm::vec3 pos = glm::vec3(0.0f, 0.0f, 0.0f), float speed = 1.0f, float fov_ = 45.0f);
 	
+	inline glm::vec3 getPosition() const
+	{
+		return position;
+	}
 
 	void updatePosition(unsigned int key, float deltaT);
 
-	inline float getFov()
+	inline float getFov() const
 	{
 		return fov;
 	}

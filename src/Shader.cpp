@@ -98,7 +98,7 @@ void Shader::setUniformFloat(const std::string & uniformName, const std::vector<
 	assert(false);
 }
 
-void Shader::setUniformInt(const std::string & uniformName, const std::vector<float>& uniformArgs, unsigned int numArgs) const
+void Shader::setUniformInt(const std::string & uniformName, const std::vector<float>& uniformArgs) const
 {
 	bind();
 	assert(uniformArgs.size() >= 1 && uniformArgs.size() <= 4);

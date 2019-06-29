@@ -9,14 +9,15 @@ out vec3 fragmentPos;
 
 uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
+uniform mat4 modelMatrix;
+uniform mat3 normalMatrix;
 
 void main()
 {
-	//fragmentPos = vec3(*vec4(aPos, 1.0));
-	//normCoords = mat3(transpose(inverse(model))) * normal;
-    normCoords = normal;
-	fragmentPos = pos;
+	fragmentPos = vec3(modelMatrix*vec4(pos, 1.0));
+	normCoords = normalMatrix * normal;
+	
 	texCoords = uvCoords;    
 
-    gl_Position = projMatrix * viewMatrix * vec4(pos, 1.0);
+     gl_Position = projMatrix * viewMatrix * modelMatrix * vec4(pos, 1.0);
 }

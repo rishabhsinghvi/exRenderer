@@ -6,20 +6,29 @@ in vec2 texCoords;
 in vec3 normCoords;
 in vec3 fragmentPos;
 
-uniform vec3 lightPos;
-uniform vec3 lightColor;
+struct Light
+{
+	vec3 lightPos;
+	vec3 lightColor;
+};
+
+uniform Light light;
 uniform vec3 modelColor;
+
 
 void main()
 {    
-	float ambient = 0.1;
-	vec3 ambientColor = ambient * lightColor;
+	float ambientValue = 0.05;
+	vec3 ambientColor = ambientValue * light.lightColor;
 
-	vec3 normalized = normalize(normCoords);
-	vec3 lightDir = normalize(lightPos - fragmentPos);
-	float diffuseIm = max(dot(normalized, lightDir), 0.0);
-	vec3 diff = diffuseIm * lightColor;
+	vec3 result;
+	vec3 normalizedNormal = normalize(normCoords);
+	vec3 lightDir = normalize(light.lightPos - fragmentPos);
 
-	vec3 result = (ambientColor + diff) * modelColor;
+	float diffuseValue = max(dot(normalizedNormal, lightDir), 0.0);
+	vec3 diffuseColor = diffuseValue * light.lightColor;
+
+	result = (diffuseColor + ambientColor) * modelColor;
+	
     frag_color = vec4(result, 1.0);
 }
