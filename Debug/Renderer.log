@@ -1,3 +1,12 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Renderer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Application.cpp
+  Mesh.cpp
+  Model.cpp
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(40): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(46): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(60): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(83): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(85): warning C4018: '<': signed/unsigned mismatch
+  Texture.cpp
+  Generating Code...
   Renderer.vcxproj -> C:\Users\rdpsi\Desktop\Renderer\Debug\exRenderer.exe

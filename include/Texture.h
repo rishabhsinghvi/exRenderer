@@ -19,18 +19,17 @@ private:
 	std::string texture_path;
 	unsigned char* texture_data;
 	int width, height, channels;
-	unsigned int texture_unit;
-
+	
 public:
 	Texture() { /* Nothing */ }
 
-	Texture(const std::string& path, unsigned int textUnit = 0);
+	Texture(const std::string& path);
 
 	~Texture();
 
-	inline void bind() const
+	inline void bind(unsigned int textureUnit = 0) const
 	{
-		glActiveTexture(GL_TEXTURE0 + texture_unit);
+		glActiveTexture(GL_TEXTURE0 + textureUnit);
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 	}
 

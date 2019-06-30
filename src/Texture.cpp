@@ -1,16 +1,15 @@
 #include "Texture.h"
 #include<iostream>
 
-Texture::Texture(const std::string & path, unsigned int textUnit) : texture_unit(textUnit), texture_data(nullptr)
+Texture::Texture(const std::string & path) : texture_data(nullptr)
 {
 	if (textureCache.find(path) != textureCache.end())
 	{
 		std::cout << "Texture already loaded! Binding that texture to GL_TEXTURE_2D...\n";
-		textureCache.find(path)->second->bind();
+		textureCache.find(path)->second->bind(0);
 		return;
 	}
 
-	glActiveTexture(GL_TEXTURE0 + texture_unit);
 
 	glGenTextures(1, &texture_id);
 	glBindTexture(GL_TEXTURE_2D, texture_id);

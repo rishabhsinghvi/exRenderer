@@ -1,3 +1,5 @@
 *.vcxproj*
 *.pdb
 *.dll
+
+tex_test/

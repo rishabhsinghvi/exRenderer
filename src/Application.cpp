@@ -41,7 +41,7 @@ int main()
 
 	float curTime = 0.0f;
 
-	Model model("models/IronMan.obj");
+	Model model("models/tex_test/Lamborghini_Aventador.obj");
 
 	Shader modelShader("shaders/model_loader.vert", "shaders/model_loader.frag");
 	
