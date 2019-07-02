@@ -7,10 +7,12 @@
 
 #include "Mesh.h"
 #include "VertexArray.h"
+#include "Texture.h"
 
 #include<vector>
 #include<string>
 #include<memory>
+#include<unordered_map>
 
 namespace exRenderer
 {
@@ -26,7 +28,7 @@ class Model
 private:
 	std::string filePath;
 	std::vector<std::shared_ptr<Mesh>> meshes;
-	
+	std::unordered_map<const char *, std::shared_ptr<Texture>> textureCache;
 	void loadModel();
 
 public:
@@ -39,6 +41,8 @@ private:
 
 	void getNodeData(const aiScene* scene, aiNode* curNode);
 	std::shared_ptr<Mesh> getMeshData(const aiScene* scene, aiMesh* curMesh);
+
+	std::vector<std::shared_ptr<Texture>> getTextures(aiMaterial* mat);
 };
 
 #endif

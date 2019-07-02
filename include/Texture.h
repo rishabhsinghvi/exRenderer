@@ -10,7 +10,6 @@
 
 class Texture;
 
-static std::unordered_map<std::string, Texture*> textureCache;
 
 class Texture
 {

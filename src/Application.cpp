@@ -13,7 +13,7 @@
 #include "exRenderer.h"
 #include "Model.h"
 
-#include "glad/glad.h"
+//#include "json.hpp"
 
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
@@ -35,6 +35,9 @@ Camera camera(glm::vec3(11.0f, 15.0f, 11.0f), 20.0f);
 
 int main()
 {
+
+
+
 	auto window = exRenderer::init(SCREEN_WIDTH, SCREEN_HEIGHT);
 	glfwSetCursorPosCallback(window, processMouseInput);
 	glfwSetScrollCallback(window, processScrollInput);

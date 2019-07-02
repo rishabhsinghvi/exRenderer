@@ -22,12 +22,12 @@ public:
 
 	}
 	
-	Mesh(const std::shared_ptr<VertexArray>& vArray): vertexArray(vArray)
+	Mesh(const std::shared_ptr<VertexArray>& vArray): vertexArray(std::move(vArray))
 	{
 	}
 
 
-	Mesh(const std::shared_ptr<VertexArray>& vArray, const std::vector<std::shared_ptr<Texture>>& textures_) : vertexArray(vArray), textures(std::move(textures_))
+	Mesh(const std::shared_ptr<VertexArray>& vArray, const std::vector<std::shared_ptr<Texture>>& textures_) : vertexArray(std::move(vArray)), textures(std::move(textures_))
 	{
 	}
 

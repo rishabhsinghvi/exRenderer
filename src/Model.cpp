@@ -7,23 +7,30 @@ Model::Model(const std::string& fp) : filePath(fp)
 	loadModel();
 }
 
+const static std::vector<aiTextureType> textureTypes =
+{
+	aiTextureType_DIFFUSE,
+	aiTextureType_SPECULAR,
+	aiTextureType_HEIGHT,
+	aiTextureType_AMBIENT
+};
 
 void Model::loadModel()
 {
 	Assimp::Importer importer;
 
-	const aiScene* scene = importer.ReadFile(filePath, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph);
+const aiScene* scene = importer.ReadFile(filePath, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph);
 
-	if (!scene)
-	{
-		std::cout << "Assimp Error: Cannot load model " << filePath << "\n";
-		std::cout << importer.GetErrorString();
-		std::cin.get();
-		exit(-1);
-	}
+if (!scene)
+{
+	std::cout << "Assimp Error: Cannot load model " << filePath << "\n";
+	std::cout << importer.GetErrorString();
+	std::cin.get();
+	exit(-1);
+}
 
-	auto rootNode = scene->mRootNode;
-	getNodeData(scene, rootNode);
+auto rootNode = scene->mRootNode;
+getNodeData(scene, rootNode);
 }
 
 
@@ -56,13 +63,13 @@ std::shared_ptr<Mesh> Model::getMeshData(const aiScene * scene, aiMesh * curMesh
 	//TODO: textures
 	vertices.reserve(curMesh->mNumVertices * 8);
 
-
+	// Push vertices data into vertex buffer
 	for (int i = 0; i < curMesh->mNumVertices; i++)
 	{
 		vertices.push_back(curMesh->mVertices[i].x);
 		vertices.push_back(curMesh->mVertices[i].y);
 		vertices.push_back(curMesh->mVertices[i].z);
-		
+
 		vertices.push_back(curMesh->mNormals[i].x);
 		vertices.push_back(curMesh->mNormals[i].y);
 		vertices.push_back(curMesh->mNormals[i].z);
@@ -80,6 +87,7 @@ std::shared_ptr<Mesh> Model::getMeshData(const aiScene * scene, aiMesh * curMesh
 
 	}
 
+	// Push index data into index buffer
 	for (int i = 0; i < curMesh->mNumFaces; i++)
 	{
 		for (int j = 0; j < curMesh->mFaces[i].mNumIndices; j++)
@@ -88,21 +96,52 @@ std::shared_ptr<Mesh> Model::getMeshData(const aiScene * scene, aiMesh * curMesh
 		}
 	}
 
+	auto mat = scene->mMaterials[curMesh->mMaterialIndex];
+
+	std::vector<std::shared_ptr<Texture>> textures_ = getTextures(mat);
+
+
 	auto vao = std::shared_ptr<VertexArray>(new VertexArray());
 	auto vb = std::shared_ptr<VertexBuffer>(new VertexBuffer(vertices));
 	auto ib = std::shared_ptr<IndexBuffer>(new IndexBuffer(indices));
-	//VertexBuffer vb(vertices.data(), vertices.size() * sizeof(float), curMesh->mNumVertices);
-	//vao->bindBuffer(vb, )
-	//VertexArray vao;
+
 	vao->bindVertexBuffer(vb, exRenderer::defaultLayout);
 	vao->bindIndexBuffer(ib);
 
-	//std::cout << "VA id is: " << vao->getId() << std::endl;
 
-	//IndexBuffer ib(indices.data(), indices.size());
-	auto mesh = std::shared_ptr<Mesh>(new Mesh(vao));
-	//std::shared_ptr<Mesh> mesh = std::shared_ptr<Mesh>(new Mesh(vao, ib));
+
+	auto mesh = std::shared_ptr<Mesh>(new Mesh(vao, textures_));
 
 	return mesh;
-	//return std::make_shared<Mesh>();
+}
+
+std::vector<std::shared_ptr<Texture>> Model::getTextures(aiMaterial * mat)
+{
+	std::vector<std::shared_ptr<Texture>> textureList;
+
+	for (int j = 0; j < textureTypes.size(); j++)
+	{
+		auto TextureType = textureTypes.at(j);
+		for (auto i = 0; i < mat->GetTextureCount(TextureType); i++)
+		{
+			aiString textureName;
+			mat->GetTexture(TextureType, i, &textureName);
+
+
+			if (textureCache.find(textureName.C_Str()) != textureCache.end()) // texture already loaded
+			{
+				textureList.push_back(textureCache.find(textureName.C_Str())->second);
+			}
+			else
+			{
+				auto directory = filePath.substr(0, filePath.find_last_of('/'));
+				auto texture_ = std::shared_ptr<Texture>(new Texture(directory + '/' + std::string(textureName.C_Str())));
+
+				textureList.push_back(texture_);
+				textureCache.insert({ textureName.C_Str(), texture_ });
+			}
+		}
+	}
+
+	return textureList;
 }

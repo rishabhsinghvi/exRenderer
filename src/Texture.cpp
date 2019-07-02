@@ -3,14 +3,6 @@
 
 Texture::Texture(const std::string & path) : texture_data(nullptr)
 {
-	if (textureCache.find(path) != textureCache.end())
-	{
-		std::cout << "Texture already loaded! Binding that texture to GL_TEXTURE_2D...\n";
-		textureCache.find(path)->second->bind(0);
-		return;
-	}
-
-
 	glGenTextures(1, &texture_id);
 	glBindTexture(GL_TEXTURE_2D, texture_id);
 
@@ -31,11 +23,13 @@ Texture::Texture(const std::string & path) : texture_data(nullptr)
 	}
 
 	// Need to check extension. jpg requires GL_RGB as the format, png requires GL_RGBA. Using GL_RGBA with jpg will result in a seg fault
-	if (texture_path.find(".jpg") != std::string::npos)
+	//if (texture_path.find(".jpg") != std::string::npos)
+	if(channels == 3)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_data);
 	}
-	else if (texture_path.find(".png") != std::string::npos)
+	//else if (texture_path.find(".png") != std::string::npos)
+	else if(channels == 4)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data);
 	}
@@ -43,7 +37,6 @@ Texture::Texture(const std::string & path) : texture_data(nullptr)
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	textureCache.insert({ texture_path, this });
 }
 
 Texture::~Texture()
