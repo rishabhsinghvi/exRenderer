@@ -8,8 +8,15 @@ When I started building this project, my aim was to abstract a lot of OpenGL cal
 
 TODO: Add textures to models.
 
-A few screenshots of example models:
+A few screenshots of models:
 
 ![Man](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/man.png)
-![Flashlight](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/flashlight.png)
-![IronMan](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/ironman.png)
+
+**With textures**
+
+![House](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/texture-house.png)
+
+![Plane](https://raw.githubusercontent.com/rishabhsinghvi/exrenderer/master/screenshots/texture-plane.png)
+
+
+## TODO: Animation and more robust texture loading

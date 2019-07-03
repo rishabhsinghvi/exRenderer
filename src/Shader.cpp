@@ -13,6 +13,7 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragPath): shad
 	{
 		std::cout << "========ERROR==========\n";
 		std::cout << "Unable to open one or more shader files!\n";
+		std::cin.get();
 		exit(0);
 	}
 
@@ -39,6 +40,7 @@ Shader::Shader(const std::string & vertexPath, const std::string & fragPath, con
 	{
 		std::cout << "========ERROR==========\n";
 		std::cout << "Unable to open one or more shader files!\n";
+		std::cin.get();
 		exit(0);
 	}
 
@@ -98,7 +100,7 @@ void Shader::setUniformFloat(const std::string & uniformName, const std::vector<
 	assert(false);
 }
 
-void Shader::setUniformInt(const std::string & uniformName, const std::vector<float>& uniformArgs) const
+void Shader::setUniformInt(const std::string & uniformName, const std::vector<int>& uniformArgs) const
 {
 	bind();
 	assert(uniformArgs.size() >= 1 && uniformArgs.size() <= 4);

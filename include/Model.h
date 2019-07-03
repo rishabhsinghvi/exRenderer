@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "VertexArray.h"
 #include "Texture.h"
+#include "Shader.h"
 
 #include<vector>
 #include<string>
@@ -35,7 +36,7 @@ public:
 	
 	Model(const std::string& fp);
 
-	void draw() const;
+	void draw(const Shader& shader) const; // need to pass shader so we can set texture uniform in mesh draw call
 
 private:
 

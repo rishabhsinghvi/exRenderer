@@ -7,6 +7,7 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "Shader.h"
 
 #include<vector>
 #include<utility>
@@ -31,7 +32,7 @@ public:
 	{
 	}
 
-	void draw() const;
+	void draw(const Shader& shader) const;
 private:
 
 

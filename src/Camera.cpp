@@ -63,9 +63,9 @@ void Camera::updatePosition(unsigned int key, float deltaT)
 		position += right * cameraSpeed * deltaT;
 	}
 	updateView();
-//#ifdef DEBUG
-//	std::cout << "Position is now: (" << position.x << ", " << position.y << ", " << position.z << ")"<<std::endl;
-//#endif
+#ifdef DEBUG
+	std::cout << "Position is now: (" << position.x << ", " << position.y << ", " << position.z << ")"<<std::endl;
+#endif
 }
 
 

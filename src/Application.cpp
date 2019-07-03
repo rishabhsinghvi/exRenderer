@@ -30,24 +30,21 @@ const unsigned int SCREEN_HEIGHT = 1080;
 float mousePosX = static_cast<float>(SCREEN_WIDTH) / 2.0f;
 float mousePosY = static_cast<float>(SCREEN_HEIGHT) / 2.0f;
 	
-Camera camera(glm::vec3(11.0f, 15.0f, 11.0f), 20.0f);
+Camera camera(glm::vec3(11.0f, 15.0f, 11.0f), 40.0f);
 
 
 int main()
 {
-
-
-
 	auto window = exRenderer::init(SCREEN_WIDTH, SCREEN_HEIGHT);
 	glfwSetCursorPosCallback(window, processMouseInput);
 	glfwSetScrollCallback(window, processScrollInput);
 
 	float curTime = 0.0f;
 
-	Model model("models/tex_test/Lamborghini_Aventador.obj");
+	Model model("models/E-45-Aircraft/E 45 Aircraft_obj.obj");
 
-	Shader modelShader("shaders/model_loader.vert", "shaders/model_loader.frag");
-	
+	Shader modelShader("shaders/model_loader.vs", "shaders/model_loader.fs");
+	Shader normalShader("shaders/normal_viewer.vs", "shaders/normal_viewer.fs", "shaders/normal_viewer.gs"); // For debugging
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(window))
 	{
@@ -57,14 +54,15 @@ int main()
 
 		exRenderer::processUserInput(window, camera, deltaT);
 
-		glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		//glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 		//glClearColor(0.30588f, 0.68627f, 0.84313f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthFunc(GL_LESS);
 
 		auto projectionMatrix = glm::perspective(glm::radians(camera.getFov()), static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT), 0.1f, 1000.0f);
 		auto viewMatrix = camera.View;
-		auto modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f, 0.25f, 0.25f));
+		auto modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		auto normalMatrix = glm::mat3(glm::transpose(glm::inverse(modelMatrix)));
 		
 
@@ -75,14 +73,20 @@ int main()
 		modelShader.setUniformMatrix3("normalMatrix", normalMatrix);
 		
 
-		modelShader.setUniformFloat("light.lightColor", { 1.0f, 1.0f, 1.0f });
-		modelShader.setUniformFloat("light.lightPos", { 0.0f, 100.0f, 15.0f });
+		modelShader.setUniformFloat("lights[0].lightColor", { 1.0f, 1.0f, 1.0f });
+		modelShader.setUniformFloat("lights[0].lightPos", { 192.0f, 118.0f, -10.9f });
 
+		modelShader.setUniformFloat("lights[1].lightColor", { 1.0f, 1.0f, 1.0f });
+		modelShader.setUniformFloat("lights[1].lightPos", { -92.27f, 161.5f, 11.45f });
+
+		
 		modelShader.setUniformFloat("modelColor", {1.0f, 0.0f, 0.0f });
 		
-		model.draw();
+		model.draw(modelShader);
 
-	
+
+		model.draw(normalShader);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

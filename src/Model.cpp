@@ -19,7 +19,7 @@ void Model::loadModel()
 {
 	Assimp::Importer importer;
 
-const aiScene* scene = importer.ReadFile(filePath, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph);
+	const aiScene* scene = importer.ReadFile(filePath, aiProcess_GenNormals | aiProcess_FlipUVs | aiProcess_Triangulate| aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph);
 
 if (!scene)
 {
@@ -34,11 +34,11 @@ getNodeData(scene, rootNode);
 }
 
 
-void Model::draw() const
+void Model::draw(const Shader& shader) const
 {
 	for (const auto& mesh : meshes)
 	{
-		mesh->draw();
+		mesh->draw(shader);
 	}
 }
 
@@ -95,7 +95,7 @@ std::shared_ptr<Mesh> Model::getMeshData(const aiScene * scene, aiMesh * curMesh
 			indices.push_back(curMesh->mFaces[i].mIndices[j]);
 		}
 	}
-
+	
 	auto mat = scene->mMaterials[curMesh->mMaterialIndex];
 
 	std::vector<std::shared_ptr<Texture>> textures_ = getTextures(mat);
@@ -127,19 +127,19 @@ std::vector<std::shared_ptr<Texture>> Model::getTextures(aiMaterial * mat)
 			aiString textureName;
 			mat->GetTexture(TextureType, i, &textureName);
 
-
-			if (textureCache.find(textureName.C_Str()) != textureCache.end()) // texture already loaded
-			{
-				textureList.push_back(textureCache.find(textureName.C_Str())->second);
-			}
-			else
-			{
+			auto textureString = textureName.C_Str();
+			//if (textureCache.find(textureString) != textureCache.end()) // texture already loaded
+			//{
+			//	textureList.push_back(textureCache.find(textureString)->second);
+			//}
+			//else
+			//{
 				auto directory = filePath.substr(0, filePath.find_last_of('/'));
-				auto texture_ = std::shared_ptr<Texture>(new Texture(directory + '/' + std::string(textureName.C_Str())));
+				auto texture_ = std::shared_ptr<Texture>(new Texture(directory + '/' + std::string(textureString), TextureType));
 
 				textureList.push_back(texture_);
-				textureCache.insert({ textureName.C_Str(), texture_ });
-			}
+			//	textureCache.insert({ textureString, texture_ });
+			//}
 		}
 	}
 

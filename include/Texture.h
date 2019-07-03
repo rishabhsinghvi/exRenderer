@@ -7,6 +7,7 @@
 #include "glad/glad.h"
 #include "stb_image/stb_image.h"
 
+#include <assimp/scene.h>
 
 class Texture;
 
@@ -18,11 +19,12 @@ private:
 	std::string texture_path;
 	unsigned char* texture_data;
 	int width, height, channels;
+	aiTextureType texture_type;
 	
 public:
 	Texture() { /* Nothing */ }
 
-	Texture(const std::string& path);
+	Texture(const std::string& path, aiTextureType type);
 
 	~Texture();
 
@@ -35,6 +37,11 @@ public:
 	inline void unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	inline aiTextureType getType() const
+	{
+		return texture_type;
 	}
 };
 

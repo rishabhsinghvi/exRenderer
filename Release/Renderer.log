@@ -1,0 +1,33 @@
+﻿  glm.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_widgets.cpp
+  stb_image.cpp
+  Camera.cpp
+c:\users\rdpsi\desktop\renderer\renderer\src\camera.cpp(10): warning C4305: 'initializing': truncation from 'double' to 'float'
+  exRenderer.cpp
+  Mesh.cpp
+c:\users\rdpsi\desktop\renderer\renderer\src\mesh.cpp(10): warning C4018: '<': signed/unsigned mismatch
+  Model.cpp
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(47): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(53): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(67): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(91): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(93): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(122): warning C4018: '<': signed/unsigned mismatch
+c:\users\rdpsi\desktop\renderer\renderer\src\model.cpp(125): warning C4018: '<': signed/unsigned mismatch
+  Texture.cpp
+  TextureCube.cpp
+c:\users\rdpsi\desktop\renderer\renderer\src\texturecube.cpp(16): warning C4018: '<': signed/unsigned mismatch
+  VertexArray.cpp
+c:\users\rdpsi\desktop\renderer\renderer\src\vertexarray.cpp(17): warning C4018: '<': signed/unsigned mismatch
+  Application.cpp
+  Shader.cpp
+  glad.c
+c:\program files (x86)\windows kits\10\include\10.0.17134.0\shared\minwindef.h(130): warning C4005: 'APIENTRY': macro redefinition
+  c:\users\rdpsi\desktop\renderer\renderer\include\glad\glad.h(32): note: see previous definition of 'APIENTRY'
+  Generating code
+  All 1531 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Renderer.vcxproj -> C:\Users\rdpsi\Desktop\Renderer\Release\exRenderer.exe

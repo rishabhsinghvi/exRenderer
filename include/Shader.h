@@ -35,7 +35,7 @@ public:
 
 	void setUniformFloat(const std::string& uniformName, const std::vector<float>& uniformArgs) const;
 
-	void setUniformInt(const std::string& uniformName, const std::vector<float>& uniformArgs) const;
+	void setUniformInt(const std::string& uniformName, const std::vector<int>& uniformArgs) const;
 
 	void setUniformBool(const std::string& uniformName, bool uniformArg) const;
 
