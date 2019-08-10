@@ -3,12 +3,11 @@
 #include<iostream>
 #include<utility>
 
-TextureCube::TextureCube(const std::vector<std::string>& paths, unsigned int textureUnit): texture_unit(textureUnit)
+TextureCube::TextureCube(const std::vector<std::string>& paths)
 {	
-	stbi_set_flip_vertically_on_load(true);
+	//stbi_set_flip_vertically_on_load(true);
 	texture_paths = std::move(paths);
 	
-	glActiveTexture(texture_unit);
 	glGenTextures(1, &texture_id);
 	
 	int width, height, channel;

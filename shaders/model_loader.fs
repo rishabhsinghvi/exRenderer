@@ -14,7 +14,7 @@ struct Light
 
 #define NUM_LIGHTS 2
 
-uniform Light lights[NUM_LIGHTS];
+uniform Light light;
 uniform vec3 modelColor;
 
 uniform sampler2D diffuse0;
@@ -32,19 +32,17 @@ uniform sampler2D specular4;
 void main()
 {
 	vec3 result;
-	for(int i = 0; i < NUM_LIGHTS; i++)
-	{
 	
 	float ambientValue = 0.05;
-	vec3 ambientColor = ambientValue * texture(diffuse0, texCoords).rgb;
+	vec3 ambientColor = ambientValue * vec3(0.5,0.5,0.5);//texture(diffuse0, texCoords).rgb;
 
 	vec3 normalizedNormal = normalize(normCoords);
-	vec3 lightDir = normalize(lights[i].lightPos - fragmentPos);
+	vec3 lightDir = normalize(light.lightPos - fragmentPos);
 
 	float diffuseValue = max(dot(normalizedNormal, lightDir), 0.0);
-	vec3 diffuseColor = diffuseValue * lights[i].lightColor * texture(diffuse0, texCoords).rgb;
+	vec3 diffuseColor = diffuseValue * light.lightColor * vec3(0.5,0.5,0.5);//texture(diffuse0, texCoords).rgb;
 
 	result = ambientColor+diffuseColor;
-	}
+	
 	frag_color = vec4(result, 1.0);
 }

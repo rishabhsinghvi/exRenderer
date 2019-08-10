@@ -22,13 +22,13 @@ private:
 public:
 	TextureCube(){}
 
-	TextureCube(const std::vector<std::string>& paths, unsigned int textureUnit = 0);
+	TextureCube(const std::vector<std::string>& paths);
 
 	~TextureCube();
 
-	inline void bind() const
+	inline void bind(unsigned int textureUnit = 0) const
 	{
-		glActiveTexture(texture_unit);
+		glActiveTexture(GL_TEXTURE0 + textureUnit);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id);
 	}
 

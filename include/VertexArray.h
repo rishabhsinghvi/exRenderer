@@ -12,9 +12,9 @@
 
 struct AttributeLayout
 {
-	unsigned int size;
-	unsigned int type;
-	unsigned int normal;
+	unsigned int size; // Number of element per vertex; will most likely be 3. Sets the 'size' parameter in glVertexAttribPointer
+	unsigned int type; // Type of each component; will most likely be GL_FLOAT or GL_UNSIGNED_INT. Sets the 'type' parameter in glVertexAttribPointer
+	unsigned int normal; // whether data should be normalized or not; either GL_TRUE or GL_FALSE. Sets the 'normalized' parameter in glVertexAttribPointer.
 
 	AttributeLayout() = delete;
 
@@ -42,7 +42,7 @@ public:
 		glDeleteVertexArrays(1, &array_id);
 	}
 
-
+	// The stride and offset are all calculated by the bindVertexBuffer method. We only need to provide the layout in order in the vector.
 	void bindVertexBuffer(const std::shared_ptr<VertexBuffer>& vb, const std::vector<AttributeLayout>& layout_);
 	
 	void bindIndexBuffer(const std::shared_ptr<IndexBuffer>& ib);

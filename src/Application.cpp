@@ -41,7 +41,7 @@ int main()
 
 	float curTime = 0.0f;
 
-	Model model("models/E-45-Aircraft/E 45 Aircraft_obj.obj");
+	Model model("models/dae/Dragon 2.5_dae.dae");
 
 	Shader modelShader("shaders/model_loader.vs", "shaders/model_loader.fs");
 	Shader normalShader("shaders/normal_viewer.vs", "shaders/normal_viewer.fs", "shaders/normal_viewer.gs"); // For debugging
@@ -54,15 +54,15 @@ int main()
 
 		exRenderer::processUserInput(window, camera, deltaT);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		//glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
+		//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 		//glClearColor(0.30588f, 0.68627f, 0.84313f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthFunc(GL_LESS);
 
 		auto projectionMatrix = glm::perspective(glm::radians(camera.getFov()), static_cast<float>(SCREEN_WIDTH) / static_cast<float>(SCREEN_HEIGHT), 0.1f, 1000.0f);
 		auto viewMatrix = camera.View;
-		auto modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		auto modelMatrix = glm::scale(glm::mat4(1.0f), glm::vec3(0.25f, 0.25f, 0.25f));
 		auto normalMatrix = glm::mat3(glm::transpose(glm::inverse(modelMatrix)));
 		
 
@@ -73,12 +73,12 @@ int main()
 		modelShader.setUniformMatrix3("normalMatrix", normalMatrix);
 		
 
-		modelShader.setUniformFloat("lights[0].lightColor", { 1.0f, 1.0f, 1.0f });
-		modelShader.setUniformFloat("lights[0].lightPos", { 192.0f, 118.0f, -10.9f });
+		modelShader.setUniformFloat("light.lightColor", { 1.0f, 1.0f, 1.0f });
+		modelShader.setUniformFloat("light.lightPos", { 5.0f, 2.0f,26.0f });
 
-		modelShader.setUniformFloat("lights[1].lightColor", { 1.0f, 1.0f, 1.0f });
+		/*modelShader.setUniformFloat("lights[1].lightColor", { 1.0f, 1.0f, 1.0f });
 		modelShader.setUniformFloat("lights[1].lightPos", { -92.27f, 161.5f, 11.45f });
-
+*/
 		
 		modelShader.setUniformFloat("modelColor", {1.0f, 0.0f, 0.0f });
 		
